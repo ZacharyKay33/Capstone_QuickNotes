@@ -2,20 +2,17 @@ This is the new home of the Quarter Notes app
 
 ## Getting Started
 
-First, 
+First, install dependencies
 
 ```bash
 npm i
-# or
-yarn
+npm run pretty
 ```
 
 Next, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
