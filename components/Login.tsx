@@ -1,6 +1,13 @@
 import AudiotrackOutlinedIcon from "@mui/icons-material/AudiotrackOutlined";
 import { Grid, Stack, Typography, Button, Container } from "@mui/material";
 
+const clickLogin = () => {
+  console.log("You clicked Login");
+};
+const clickSignUp = () => {
+  console.log("You clicked Sign Up");
+};
+
 const Login = () => {
   return (
     <Stack direction="row" sx={{ height: "720px" }}>
@@ -25,10 +32,18 @@ const Login = () => {
           <Container>
             {" "}
             {/*Centering*/}
-            <Button variant="contained" sx={{ width: "80%", my: 2 }}>
+            <Button
+              variant="contained"
+              sx={{ width: "80%", my: 2 }}
+              onClick={clickLogin}
+            >
               Login
             </Button>
-            <Button variant="contained" sx={{ width: "80%", my: 2 }}>
+            <Button
+              variant="contained"
+              sx={{ width: "80%", my: 2 }}
+              onClick={clickSignUp}
+            >
               Sign Up
             </Button>
           </Container>
