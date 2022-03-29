@@ -3,11 +3,6 @@ import Login from "../components/Login";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 
-/* const LastFM = require("last-fm");
-const lastfm = new LastFM(process.env.LASTFM_KEY, {
-  userAgent: "QuarterNotes/0.0.1 (http://quarternotes.com)",
-}); */
-
 const Home: NextPage = () => {
   //Page's state (data)
   const [isAuthed, setIsAuthed] = useState(false);

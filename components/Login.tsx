@@ -1,14 +1,18 @@
 import AudiotrackOutlinedIcon from "@mui/icons-material/AudiotrackOutlined";
 import { Grid, Stack, Typography, Button, Container } from "@mui/material";
-
-const clickLogin = () => {
-  console.log("You clicked Login");
-};
-const clickSignUp = () => {
-  console.log("You clicked Sign Up");
-};
+import { useRouter } from "next/router";
 
 const Login = () => {
+  const router = useRouter();
+
+  const clickLogin = () => {
+    console.log("You clicked Login");
+  };
+
+  const clickSignUp = () => {
+    router.push("/SignUp");
+  };
+
   return (
     <Stack direction="row" sx={{ height: "720px" }}>
       {/* Main Container, controls direction and overall size */}
