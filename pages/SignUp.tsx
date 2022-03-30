@@ -78,7 +78,7 @@ const SignUp = () => {
 
   const handleFinish = () => {
     //Completing the flow
-    router.replace("/");
+    router.push("/Home");
   };
 
   //State mutators
