@@ -2,7 +2,7 @@ import AudiotrackOutlinedIcon from "@mui/icons-material/AudiotrackOutlined";
 import { Grid, Stack, Typography, Button, Container } from "@mui/material";
 import { useRouter } from "next/router";
 
-const Login = () => {
+const Enter = () => {
   const router = useRouter();
 
   const clickLogin = () => {
@@ -56,4 +56,4 @@ const Login = () => {
     </Stack>
   );
 };
-export default Login;
+export default Enter;

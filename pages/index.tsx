@@ -1,11 +1,15 @@
-import { Grid, Typography } from "@mui/material";
-import Login from "../components/Login";
+import Enter from "../components/Enter";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
-const Home: NextPage = () => {
+const Splash: NextPage = () => {
+  const router = useRouter();
   //Page's state (data)
   const [isAuthed, setIsAuthed] = useState(false);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   //Side effect that fires whenever isAuthed is updated
   useEffect(() => {
@@ -15,14 +19,12 @@ const Home: NextPage = () => {
   return (
     <>
       {isAuthed ? ( //Check if we're authenticated
-        <Grid container justifyContent="center">
-          <Typography variant="h4">Home</Typography>
-        </Grid>
+        router.replace("/Home")
       ) : (
-        <Login />
+        <Enter />
       )}
     </>
   );
 };
 
-export default Home;
+export default Splash;
