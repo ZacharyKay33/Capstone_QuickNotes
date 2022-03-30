@@ -35,7 +35,7 @@ const SignUp = () => {
     required: true,
   };
   const dispatch = useAppDispatch();
-  
+
   //Functions
   const handleNext = () => {
     //Next step
@@ -45,8 +45,15 @@ const SignUp = () => {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           //Signed In
-          const user = userCredential.user;
-          //dispatch(login(user));
+          dispatch(
+            login({
+              uid: userCredential.user.uid,
+              displayName: userCredential.user.displayName,
+              email: userCredential.user.email,
+              phoneNumber: userCredential.user.phoneNumber,
+              photoURL: userCredential.user.photoURL,
+            })
+          );
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         })
         .catch((error) => {

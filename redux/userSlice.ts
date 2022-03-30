@@ -2,20 +2,40 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { User } from "firebase/auth";
 import { RootState } from "./store";
 
-interface userState {
-  user: {};
+export interface userState {
+  uid?: string | null | undefined;
+  displayName?: string | null | undefined;
+  email?: string | null | undefined;
+  phoneNumber?: string | null | undefined;
+  photoURL?: string | null | undefined;
 }
-const initialState: userState = { user: {} };
+const initialState: userState = {
+  uid: "",
+  displayName: "",
+  email: "",
+  phoneNumber: "",
+  photoURL: "",
+};
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    login: (state, action: PayloadAction<User>) => {
-      state.user = action.payload;
+    login: (state, action: PayloadAction<userState>) => {
+      state.uid = action.payload.uid;
+      state.displayName = action.payload.displayName;
+      state.email = action.payload.email;
+      state.phoneNumber = action.payload.phoneNumber;
+      state.photoURL = action.payload.photoURL;
     },
     logout: (state) => {
-      state.user = {};
+      state = {
+        uid: "",
+        displayName: "",
+        email: "",
+        phoneNumber: "",
+        photoURL: "",
+      };
     },
   },
 });
