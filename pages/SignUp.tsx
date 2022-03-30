@@ -14,6 +14,8 @@ import {
 import { useRouter } from "next/router";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { SetStateAction, useState } from "react";
+import { login } from "../redux/userSlice";
+import { useAppDispatch } from "../redux/hooks";
 
 const steps = ["Welcome!", "Login Info", "Wrapping Up"];
 
@@ -32,7 +34,8 @@ const SignUp = () => {
     variant: "standard",
     required: true,
   };
-
+  const dispatch = useAppDispatch();
+  
   //Functions
   const handleNext = () => {
     //Next step
@@ -43,6 +46,7 @@ const SignUp = () => {
         .then((userCredential) => {
           //Signed In
           const user = userCredential.user;
+          //dispatch(login(user));
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         })
         .catch((error) => {
