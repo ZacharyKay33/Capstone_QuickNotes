@@ -19,7 +19,7 @@ const Enter = () => {
 
   //Functions
   const clickLogin = () => {
-    router.push("/LogIn");
+    router.push("/Login");
   };
 
   const clickSignUp = () => {
