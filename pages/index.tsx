@@ -1,33 +1,23 @@
-import { Grid, Typography } from "@mui/material";
-import Login from "../components/Login";
+import Enter from "../components/Enter";
 import type { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useAppSelector } from "../redux/hooks";
 
-/* const LastFM = require("last-fm");
-const lastfm = new LastFM(process.env.LASTFM_KEY, {
-  userAgent: "QuarterNotes/0.0.1 (http://quarternotes.com)",
-}); */
+const Splash: NextPage = () => {
+  const router = useRouter();
 
-const Home: NextPage = () => {
   //Page's state (data)
-  const [isAuthed, setIsAuthed] = useState(false);
-
-  //Side effect that fires whenever isAuthed is updated
-  useEffect(() => {
-    console.log("isAuthed is updated to - " + isAuthed);
-  }, [isAuthed]);
+  const uid = useAppSelector((state) => state.user.uid);
 
   return (
     <>
-      {isAuthed ? ( //Check if we're authenticated
-        <Grid container justifyContent="center">
-          <Typography variant="h4">Home</Typography>
-        </Grid>
+      {uid !== "" && uid !== null && uid !== undefined ? ( //Check if we're authenticated
+        router.push("/Home")
       ) : (
-        <Login />
+        <Enter />
       )}
     </>
   );
 };
 
-export default Home;
+export default Splash;
