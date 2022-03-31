@@ -57,7 +57,7 @@ const SignUp = () => {
           dispatch(
             login({
               uid: userCredential.user.uid,
-              displayName: userCredential.user.displayName,
+              displayName: username,
               email: userCredential.user.email,
               phoneNumber: userCredential.user.phoneNumber,
               photoURL: userCredential.user.photoURL,
