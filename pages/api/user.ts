@@ -4,6 +4,7 @@ import {
   updateProfile,
   Auth,
   signInWithEmailAndPassword,
+  UserCredential,
 } from "firebase/auth";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -72,6 +73,7 @@ const createUser = (payload: Data): Response => {
           displayName: payload.user.username,
         });
         //Sending the user back as a response
+        populateDB(userCredential);
         response.user = userCredential.user;
         response.code = 200;
       }
@@ -89,6 +91,16 @@ const createUser = (payload: Data): Response => {
     message: "Bad request, atrocious even.",
   });
 };
+
+/*Service Method
+Name - populateDb
+Input - Usercredential
+Output- None
+Side Effect - Scaffold a document for the new user
+*/
+const populateDB = (userCredential: UserCredential):void => {
+  console.log("Full User Credentials\n", userCredential);
+}
 
 //Recieves all requests, routes them to the correct method, returns a response
 export default function handler(req: NextApiRequest, res: NextApiResponse) {

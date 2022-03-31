@@ -51,7 +51,7 @@ const SignUp = () => {
           //Signed In
           if (auth.currentUser !== null) {
             updateProfile(auth.currentUser, {
-              displayName: username
+              displayName: username,
             });
           }
           dispatch(
