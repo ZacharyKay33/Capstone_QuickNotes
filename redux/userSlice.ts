@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { User } from "firebase/auth";
 import { RootState } from "./store";
 
 export interface userState {
@@ -11,16 +10,9 @@ export interface userState {
 }
 
 //Setup database interface
-export interface dbReqs {
-}
+export interface dbReqs {}
 
-const initialState: userState = {
-  uid: "",
-  displayName: "",
-  email: "",
-  phoneNumber: "",
-  photoURL: "",
-};
+var initialState = {} as userState;
 
 const userSlice = createSlice({
   name: "user",
@@ -28,11 +20,7 @@ const userSlice = createSlice({
   reducers: {
     login: (state, action: PayloadAction<userState>) => {
       //Set state
-      state.uid = action.payload.uid;
-      state.displayName = action.payload.displayName;
-      state.email = action.payload.email;
-      state.phoneNumber = action.payload.phoneNumber;
-      state.photoURL = action.payload.photoURL;
+      state = action.payload;
     },
     signup: (state, action: PayloadAction<userState>) => {
       //Set state
