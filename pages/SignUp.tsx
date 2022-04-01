@@ -63,6 +63,7 @@ const SignUp = () => {
               photoURL: userCredential.user.photoURL,
             })
           );
+          //Populate database here
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         })
         .catch((error) => {

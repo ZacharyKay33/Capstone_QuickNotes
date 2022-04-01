@@ -1,7 +1,19 @@
-import {Grid, Paper, List, Avatar, Edit, Typography, TextField, Button, FormControl} from "@mui/material";
-import {getUser} from '../pages/api/DB'
+import {
+  Grid,
+  Paper,
+  List,
+  Avatar,
+  Typography,
+  TextField,
+  Button,
+  FormControl,
+  ListItemAvatar,
+  ListItemText,
+  Stack,
+} from "@mui/material";
+import "./api/Firebase";
 
-class profile extends React.Component{
+/* class profile extends React.Component{
     state = {
         user: null
     };
@@ -48,8 +60,25 @@ class profile extends React.Component{
         ) 
         
     }
-}
+} */
 
 //const profile = () => {
 
 //}
+
+const Profile = () => {
+  return (
+    <Paper elevation={4}>
+      <Stack spacing={3}>
+        <Typography variant="h4" align="center" gutterBottom>
+          Profile
+        </Typography>
+        <Avatar sx={{ width: 200, height: 200 }}>T</Avatar>
+        <Typography>User.name</Typography>
+        <Typography>User.bio</Typography>
+      </Stack>
+    </Paper>
+  );
+};
+
+export default Profile;
