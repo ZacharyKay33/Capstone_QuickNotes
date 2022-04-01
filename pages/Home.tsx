@@ -1,4 +1,5 @@
-import { Grid, Stack, TextField, Typography } from "@mui/material";
+import { Grid, Stack, TextField, Typography, Button } from "@mui/material";
+import { doc, updateDoc, arrayUnion, getFirestore } from "firebase/firestore";
 import { NextPage } from "next";
 import { SetStateAction, useState } from "react";
 
@@ -11,19 +12,55 @@ import { SetStateAction, useState } from "react";
 } */
 
 const Home: NextPage = () => {
+  //State definitions
   const [song, setSong] = useState("");
   const [title, setTitle] = useState("");
   const [review, setReview] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  //Functions
   const updSong = (event: { target: { value: SetStateAction<string> } }) => {
     setSong(event.target.value);
   };
+
   const updTitle = (event: { target: { value: SetStateAction<string> } }) => {
     setTitle(event.target.value);
   };
+
   const updReview = (event: { target: { value: SetStateAction<string> } }) => {
     setReview(event.target.value);
   };
+
+  const submitReview = () => {
+    console.log("Run the shits");
+    setLoading(true);
+    const db = getFirestore();
+    const newReview = doc(db, "reviews", "all_reviews");
+
+    updateDoc(newReview, {
+      content: review,
+      music: song,
+      title: title,
+    })
+      .then(() => {
+        alert(
+          "Your message has successfully saved :) Congrats you're a critic"
+        );
+        setReview("");
+        setTitle("");
+        setSong("");
+      })
+      .catch((error) => {
+        alert(
+          "Unfortunately it didn't go through, write better reviews.\n" +
+            error.message
+        );
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   return (
     <Grid container justifyContent="center">
       <Stack direction="column" spacing={3}>
@@ -57,6 +94,9 @@ const Home: NextPage = () => {
           aria-label="review-input"
           fullWidth
         />
+        <Button onClick={submitReview} disabled={loading}>
+          Submit
+        </Button>
       </Stack>
     </Grid>
   );
