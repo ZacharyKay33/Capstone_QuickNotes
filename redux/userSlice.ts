@@ -9,6 +9,11 @@ export interface userState {
   phoneNumber?: string | null | undefined;
   photoURL?: string | null | undefined;
 }
+
+//Setup database interface
+export interface dbReqs {
+}
+
 const initialState: userState = {
   uid: "",
   displayName: "",
@@ -22,11 +27,22 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action: PayloadAction<userState>) => {
+      //Set state
       state.uid = action.payload.uid;
       state.displayName = action.payload.displayName;
       state.email = action.payload.email;
       state.phoneNumber = action.payload.phoneNumber;
       state.photoURL = action.payload.photoURL;
+    },
+    signup: (state, action: PayloadAction<userState>) => {
+      //Set state
+      state.uid = action.payload.uid;
+      state.displayName = action.payload.displayName;
+      state.email = action.payload.email;
+      state.phoneNumber = action.payload.phoneNumber;
+      state.photoURL = action.payload.photoURL;
+
+      //Scaffold firebase
     },
     logout: (state) => {
       state = {

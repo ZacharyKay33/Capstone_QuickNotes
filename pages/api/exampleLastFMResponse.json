@@ -1,0 +1,143 @@
+{
+  "results": {
+    "opensearch:Query": {
+      "#text": "",
+      "role": "request",
+      "searchTerms": "awaken",
+      "startPage": "1"
+    },
+    "opensearch:totalResults": "77383",
+    "opensearch:startIndex": "0",
+    "opensearch:itemsPerPage": "5",
+    "albummatches": {
+      "album": [
+        {
+          "name": "\"Awaken, My Love!\"",
+          "artist": "Childish Gambino",
+          "url": "https://www.last.fm/music/Childish+Gambino/%22Awaken,+My+Love%21%22",
+          "image": [
+            {
+              "#text": "https://lastfm.freetls.fastly.net/i/u/34s/d4f6f6f537a28b6b15f793515b95452b.png",
+              "size": "small"
+            },
+            {
+              "#text": "https://lastfm.freetls.fastly.net/i/u/64s/d4f6f6f537a28b6b15f793515b95452b.png",
+              "size": "medium"
+            },
+            {
+              "#text": "https://lastfm.freetls.fastly.net/i/u/174s/d4f6f6f537a28b6b15f793515b95452b.png",
+              "size": "large"
+            },
+            {
+              "#text": "https://lastfm.freetls.fastly.net/i/u/300x300/d4f6f6f537a28b6b15f793515b95452b.png",
+              "size": "extralarge"
+            }
+          ],
+          "streamable": "0",
+          "mbid": ""
+        },
+        {
+          "name": "Awaken The World - The 1st Album",
+          "artist": "WAYV",
+          "url": "https://www.last.fm/music/WAYV/Awaken+The+World+-+The+1st+Album",
+          "image": [
+            {
+              "#text": "https://lastfm.freetls.fastly.net/i/u/34s/8f27511c3cadecbd3891b7c75d1d92a1.png",
+              "size": "small"
+            },
+            {
+              "#text": "https://lastfm.freetls.fastly.net/i/u/64s/8f27511c3cadecbd3891b7c75d1d92a1.png",
+              "size": "medium"
+            },
+            {
+              "#text": "https://lastfm.freetls.fastly.net/i/u/174s/8f27511c3cadecbd3891b7c75d1d92a1.png",
+              "size": "large"
+            },
+            {
+              "#text": "https://lastfm.freetls.fastly.net/i/u/300x300/8f27511c3cadecbd3891b7c75d1d92a1.png",
+              "size": "extralarge"
+            }
+          ],
+          "streamable": "0",
+          "mbid": ""
+        },
+        {
+          "name": "Awaken the Dreamers",
+          "artist": "All Shall Perish",
+          "url": "https://www.last.fm/music/All+Shall+Perish/Awaken+the+Dreamers",
+          "image": [
+            {
+              "#text": "https://lastfm.freetls.fastly.net/i/u/34s/e6054f8d30374dc9b824373f081b24b8.png",
+              "size": "small"
+            },
+            {
+              "#text": "https://lastfm.freetls.fastly.net/i/u/64s/e6054f8d30374dc9b824373f081b24b8.png",
+              "size": "medium"
+            },
+            {
+              "#text": "https://lastfm.freetls.fastly.net/i/u/174s/e6054f8d30374dc9b824373f081b24b8.png",
+              "size": "large"
+            },
+            {
+              "#text": "https://lastfm.freetls.fastly.net/i/u/300x300/e6054f8d30374dc9b824373f081b24b8.png",
+              "size": "extralarge"
+            }
+          ],
+          "streamable": "0",
+          "mbid": "b3c72db7-3875-3a32-8e32-91d94301c1b5"
+        },
+        {
+          "name": "Awakened",
+          "artist": "As I Lay Dying",
+          "url": "https://www.last.fm/music/As+I+Lay+Dying/Awakened",
+          "image": [
+            {
+              "#text": "https://lastfm.freetls.fastly.net/i/u/34s/fea948887a6140878cc8fcb1da116d96.png",
+              "size": "small"
+            },
+            {
+              "#text": "https://lastfm.freetls.fastly.net/i/u/64s/fea948887a6140878cc8fcb1da116d96.png",
+              "size": "medium"
+            },
+            {
+              "#text": "https://lastfm.freetls.fastly.net/i/u/174s/fea948887a6140878cc8fcb1da116d96.png",
+              "size": "large"
+            },
+            {
+              "#text": "https://lastfm.freetls.fastly.net/i/u/300x300/fea948887a6140878cc8fcb1da116d96.png",
+              "size": "extralarge"
+            }
+          ],
+          "streamable": "0",
+          "mbid": "e565c4a3-2c95-4b78-beb3-1a6ed83c1dec"
+        },
+        {
+          "name": "Awakening",
+          "artist": "blessthefall",
+          "url": "https://www.last.fm/music/blessthefall/Awakening",
+          "image": [
+            {
+              "#text": "https://lastfm.freetls.fastly.net/i/u/34s/a3ecc19c3a4a4d0ca5c4e3bc28fc21a8.png",
+              "size": "small"
+            },
+            {
+              "#text": "https://lastfm.freetls.fastly.net/i/u/64s/a3ecc19c3a4a4d0ca5c4e3bc28fc21a8.png",
+              "size": "medium"
+            },
+            {
+              "#text": "https://lastfm.freetls.fastly.net/i/u/174s/a3ecc19c3a4a4d0ca5c4e3bc28fc21a8.png",
+              "size": "large"
+            },
+            {
+              "#text": "https://lastfm.freetls.fastly.net/i/u/300x300/a3ecc19c3a4a4d0ca5c4e3bc28fc21a8.png",
+              "size": "extralarge"
+            }
+          ],
+          "streamable": "0",
+          "mbid": "9c14387c-c9ae-49e4-9f16-465fc5d76c18"
+        }
+      ]
+    },
+    "@attr": { "for": "awaken" }
+  }
+}

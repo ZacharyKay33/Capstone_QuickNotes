@@ -12,7 +12,11 @@ import {
   Grid,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import { SetStateAction, useState } from "react";
 import { login } from "../redux/userSlice";
 import { useAppDispatch } from "../redux/hooks";
@@ -45,10 +49,15 @@ const SignUp = () => {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           //Signed In
+          if (auth.currentUser !== null) {
+            updateProfile(auth.currentUser, {
+              displayName: username,
+            });
+          }
           dispatch(
             login({
               uid: userCredential.user.uid,
-              displayName: userCredential.user.displayName,
+              displayName: username,
               email: userCredential.user.email,
               phoneNumber: userCredential.user.phoneNumber,
               photoURL: userCredential.user.photoURL,
