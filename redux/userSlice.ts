@@ -37,7 +37,7 @@ const userSlice = createSlice({
         phoneNumber: "",
         photoURL: "",
       };
-      const auth = getAuth()
+      const auth = getAuth();
       auth.signOut();
     },
   },
