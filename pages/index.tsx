@@ -14,7 +14,6 @@ const Splash: NextPage = () => {
 
   //Functions
   const updateState = () => {
-    console.log("Updating state");
     dispatch(
       login({
         uid: user?.uid,

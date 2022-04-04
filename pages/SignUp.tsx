@@ -42,7 +42,7 @@ const SignUp = () => {
     if (activeStep === 1) {
       createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
-          //Signed In
+          // Signed In
           if (auth.currentUser !== null) {
             updateProfile(auth.currentUser, {
               displayName: username,
@@ -61,12 +61,14 @@ const SignUp = () => {
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         })
         .catch((err) => {
+          // Error handling
           alert("Something went catastrophically wrong. Try again later?");
           if (error) {
             console.log("Error Message - ", error.message);
           }
         })
         .finally(() => {
+          // Reset state
           setUsername("");
           setPassword("");
           setEmail("");

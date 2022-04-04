@@ -1,4 +1,5 @@
 // @ts-ignore
+import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { SetStateAction, useState, useEffect } from "react";
 import internal from "stream";
@@ -26,7 +27,7 @@ interface result {
   ];
 }
 
-const Search = ({ userSearch }) => {
+const Search:NextPage = ({ userSearch }) => {
   const router = useRouter();
 
   const [searchResultNames, setSearchResultNames] = useState([]);

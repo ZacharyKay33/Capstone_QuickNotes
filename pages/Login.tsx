@@ -28,24 +28,30 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const auth = getAuth();
   const [signInWithEmailAndPassword, user, loading, error] =
-    useSignInWithEmailAndPassword(auth);
+    useSignInWithEmailAndPassword(auth); // Pulling authentification helpers
   const dispatch = useAppDispatch(); //Sends requests to the redux store
   const router = useRouter();
+  const formStarter = {
+    variant: "standard",
+    required: true,
+  };
 
   const tryLogin = () => {
     signInWithEmailAndPassword(email, password)
       .then(() => {
-        //Signed In
+        // Signed In
         updateState();
         router.push("/Home");
       })
       .catch((err) => {
+        // Error handling
         alert("Something catastrophic happened, maybe try again? Or don't 😇");
         if (error) {
           console.log("Error Message - ", error.message);
         }
       })
       .finally(() => {
+        // Reset state
         setEmail("");
         setPassword("");
       });
@@ -61,13 +67,8 @@ const Login = () => {
     setPassword(event.target.value);
   };
 
-  const formStarter = {
-    variant: "standard",
-    required: true,
-  };
-
   const updateState = () => {
-    console.log("Updating state");
+    // Update state
     dispatch(
       login({
         uid: user?.user.uid,
@@ -82,7 +83,7 @@ const Login = () => {
 
   return (
     <>
-      {user !== null && user !== undefined && false ? (
+      {user !== null && user !== undefined ? (
         updateState()
       ) : (
         <Paper component={Container} elevation={3} sx={style}>
