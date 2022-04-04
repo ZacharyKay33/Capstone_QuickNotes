@@ -98,9 +98,9 @@ Input - Usercredential
 Output- None
 Side Effect - Scaffold a document for the new user
 */
-const populateDB = (userCredential: UserCredential):void => {
+const populateDB = (userCredential: UserCredential): void => {
   console.log("Full User Credentials\n", userCredential);
-}
+};
 
 //Recieves all requests, routes them to the correct method, returns a response
 export default function handler(req: NextApiRequest, res: NextApiResponse) {

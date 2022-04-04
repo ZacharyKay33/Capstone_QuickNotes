@@ -12,28 +12,24 @@ import {
   Grid,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  updateProfile,
-} from "firebase/auth";
+import { getAuth, updateProfile } from "firebase/auth";
 import { SetStateAction, useState } from "react";
 import { login } from "../redux/userSlice";
 import { useAppDispatch } from "../redux/hooks";
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 
 const steps = ["Welcome!", "Login Info", "Wrapping Up"];
 
 const SignUp = () => {
   //State
   const router = useRouter();
+  const auth = getAuth();
+  const [createUserWithEmailAndPassword, user, loading, error] =
+    useCreateUserWithEmailAndPassword(auth);
   const [activeStep, setActiveStep] = useState(0);
   const [username, setUsername] = useState("");
-  const [usernameVal, setUsernameVal] = useState(false);
   const [email, setEmail] = useState("");
-  const [emailVal, setEmailVal] = useState(false);
   const [password, setPassword] = useState("");
-  const [passwordVal, setPasswordVal] = useState(false);
-  const [loading, setLoading] = useState(false);
   const formStarter = {
     variant: "standard",
     required: true,
@@ -44,9 +40,7 @@ const SignUp = () => {
   const handleNext = () => {
     //Next step
     if (activeStep === 1) {
-      setLoading(true);
-      const auth = getAuth();
-      createUserWithEmailAndPassword(auth, email, password)
+      createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
           //Signed In
           if (auth.currentUser !== null) {
@@ -56,25 +50,26 @@ const SignUp = () => {
           }
           dispatch(
             login({
-              uid: userCredential.user.uid,
-              displayName: username,
-              email: userCredential.user.email,
-              phoneNumber: userCredential.user.phoneNumber,
-              photoURL: userCredential.user.photoURL,
+              uid: user?.user.uid,
+              displayName: user?.user.displayName,
+              email: user?.user.email,
+              phoneNumber: user?.user.phoneNumber,
+              photoURL: user?.user.photoURL,
             })
           );
           //Populate database here
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         })
-        .catch((error) => {
+        .catch((err) => {
           alert("Something went catastrophically wrong. Try again later?");
-          console.log("Error Message - ", error.message);
+          if (error) {
+            console.log("Error Message - ", error.message);
+          }
         })
         .finally(() => {
           setUsername("");
           setPassword("");
           setEmail("");
-          setLoading(false);
         });
     } else {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -100,11 +95,6 @@ const SignUp = () => {
 
   const updEmail = (event: { target: { value: SetStateAction<string> } }) => {
     setEmail(event.target.value);
-    if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email).valueOf()) {
-      setEmailVal(true);
-    } else {
-      setEmailVal(false);
-    }
   };
 
   const updPassword = (event: {
@@ -147,7 +137,7 @@ const SignUp = () => {
           ) : activeStep === 1 ? (
             <Box sx={{ mx: "auto", width: "50%", my: 3 }}>
               <FormControl>
-                <FormControl error={usernameVal}>
+                <FormControl>
                   <TextField
                     id="username-input"
                     label="Username"
@@ -158,7 +148,7 @@ const SignUp = () => {
                     inputProps={formStarter}
                   />
                 </FormControl>
-                <FormControl error={emailVal}>
+                <FormControl>
                   <TextField
                     sx={{ mt: 4 }}
                     id="email-input"
@@ -171,7 +161,7 @@ const SignUp = () => {
                     inputProps={formStarter}
                   />
                 </FormControl>
-                <FormControl error={passwordVal}>
+                <FormControl>
                   <TextField
                     sx={{ mt: 4 }}
                     id="password-input"

@@ -7,10 +7,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { useRouter } from "next/router";
 import { SetStateAction, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { useAppDispatch } from "../redux/hooks";
 import { login } from "../redux/userSlice";
 
 const style = {
@@ -25,48 +26,33 @@ const style = {
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [emailVal, setEmailVal] = useState(false);
-  const [passwordVal, setPasswordVal] = useState(false);
-  const dispatch = useAppDispatch(); //Sends requests to the redux store
-  const uid = useAppSelector((state) => state.user.uid);
   const auth = getAuth();
+  const [signInWithEmailAndPassword, user, loading, error] =
+    useSignInWithEmailAndPassword(auth);
+  const dispatch = useAppDispatch(); //Sends requests to the redux store
   const router = useRouter();
 
   const tryLogin = () => {
-    setLoading(true);
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+    signInWithEmailAndPassword(email, password)
+      .then(() => {
         //Signed In
-        dispatch(
-          login({
-            uid: userCredential.user.uid,
-            displayName: userCredential.user.displayName,
-            email: userCredential.user.email,
-            phoneNumber: userCredential.user.phoneNumber,
-            photoURL: userCredential.user.photoURL,
-          })
-        );
+        updateState();
         router.push("/Home");
       })
-      .catch((error) => {
+      .catch((err) => {
         alert("Something catastrophic happened, maybe try again? Or don't 😇");
-        console.log(error.message);
+        if (error) {
+          console.log("Error Message - ", error.message);
+        }
       })
       .finally(() => {
         setEmail("");
         setPassword("");
-        setLoading(false);
       });
   };
 
   const updEmail = (event: { target: { value: SetStateAction<string> } }) => {
     setEmail(event.target.value);
-    if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email).valueOf()) {
-      setEmailVal(true);
-    } else {
-      setEmailVal(false);
-    }
   };
 
   const updPassword = (event: {
@@ -80,47 +66,67 @@ const Login = () => {
     required: true,
   };
 
+  const updateState = () => {
+    console.log("Updating state");
+    dispatch(
+      login({
+        uid: user?.user.uid,
+        displayName: user?.user.displayName,
+        email: user?.user.email,
+        phoneNumber: user?.user.phoneNumber,
+        photoURL: user?.user.photoURL,
+      })
+    );
+    console.log("Current user's username" + user?.user.displayName);
+  };
+
   return (
-    <Paper component={Container} elevation={3} sx={style}>
-      <Stack direction="column">
-        {/*Login form*/}
-        <Typography variant="h5" mt={3}>
-          Login
-        </Typography>
-        <FormControl error={emailVal} sx={{ mt: 4 }}>
-          <TextField
-            id="email-input"
-            label="Email"
-            placeholder="supercool@gmail.com"
-            value={email}
-            onChange={updEmail}
-            aria-label="Email"
-            inputProps={formStarter}
-          />
-        </FormControl>
-        <FormControl error={passwordVal}>
-          <TextField
-            sx={{ my: 4 }}
-            id="password-input"
-            label="Password"
-            value={password}
-            onChange={updPassword}
-            type="password"
-            inputProps={formStarter}
-            aria-label="Password"
-          />
-        </FormControl>
-        <Button
-          variant="contained"
-          sx={{ mb: 5, width: "50%", mx: "auto" }}
-          type="submit"
-          disabled={loading}
-          onClick={tryLogin}
-        >
-          Submit
-        </Button>
-      </Stack>
-    </Paper>
+    <>
+      {user !== null && user !== undefined && false ? (
+        updateState()
+      ) : (
+        <Paper component={Container} elevation={3} sx={style}>
+          <Stack direction="column">
+            {/*Login form*/}
+            <Typography variant="h5" mt={3}>
+              Login
+            </Typography>
+            <FormControl sx={{ mt: 4 }}>
+              <TextField
+                id="email-input"
+                label="Email"
+                placeholder="supercool@gmail.com"
+                value={email}
+                onChange={updEmail}
+                aria-label="Email"
+                inputProps={formStarter}
+              />
+            </FormControl>
+            <FormControl>
+              <TextField
+                sx={{ my: 4 }}
+                id="password-input"
+                label="Password"
+                value={password}
+                onChange={updPassword}
+                type="password"
+                inputProps={formStarter}
+                aria-label="Password"
+              />
+            </FormControl>
+            <Button
+              variant="contained"
+              sx={{ mb: 5, width: "50%", mx: "auto" }}
+              type="submit"
+              disabled={loading}
+              onClick={tryLogin}
+            >
+              Submit
+            </Button>
+          </Stack>
+        </Paper>
+      )}
+    </>
   );
 };
 export default Login;

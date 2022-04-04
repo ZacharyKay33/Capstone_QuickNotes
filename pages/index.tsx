@@ -1,18 +1,37 @@
 import Enter from "../components/Enter";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch } from "../redux/hooks";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { getAuth } from "firebase/auth";
+import { login } from "../redux/userSlice";
 
 const Splash: NextPage = () => {
   const router = useRouter();
+  const auth = getAuth();
+  const dispatch = useAppDispatch();
+  const [user] = useAuthState(auth);
 
-  //Page's state (data)
-  const uid = useAppSelector((state) => state.user.uid);
+  //Functions
+  const updateState = () => {
+    console.log("Updating state");
+    dispatch(
+      login({
+        uid: user?.uid,
+        displayName: user?.displayName,
+        email: user?.email,
+        phoneNumber: user?.phoneNumber,
+        photoURL: user?.photoURL,
+      })
+    );
+    console.log("Current user's username" + user?.displayName);
+    router.push("/Home");
+  };
 
   return (
     <>
-      {uid !== "" && uid !== null && uid !== undefined ? ( //Check if we're authenticated
-        router.push("/Home")
+      {user !== null && user !== undefined ? ( //Check if we're authenticated
+        updateState()
       ) : (
         <Enter />
       )}
