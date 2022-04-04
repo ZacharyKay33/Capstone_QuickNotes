@@ -60,9 +60,11 @@ const SignUp = () => {
           //Populate database here
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         })
-        .catch((error) => {
+        .catch((err) => {
           alert("Something went catastrophically wrong. Try again later?");
-          console.log("Error Message - ", error.message);
+          if (error) {
+            console.log("Error Message - ", error.message);
+          }
         })
         .finally(() => {
           setUsername("");

@@ -42,7 +42,7 @@ const Login = () => {
       .catch((err) => {
         alert("Something catastrophic happened, maybe try again? Or don't 😇");
         if (error) {
-          console.log(error.message);
+          console.log("Error Message - ", error.message);
         }
       })
       .finally(() => {
