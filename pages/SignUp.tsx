@@ -93,8 +93,9 @@ const SignUp = () => {
 
   useEffect(() => {
     if (user) {
-      const reviewLocation = doc(getFirestore(fbase), "reviews", user.user.uid);
+      const reviewLocation = doc(getFirestore(fbase), "reviews", user.user.uid); // Create a document in reviews named {user.uid}
       setDoc(doc(getFirestore(fbase), "users", user.user.uid), {
+        // Create document in users named {user.uid} with user data
         email: user.user.email,
         fname: fname,
         lname: lname,
@@ -102,6 +103,7 @@ const SignUp = () => {
         username: username,
       })
         .then(() => {
+          // If successful, also instantiate an empty review doc for the new user
           setDoc(reviewLocation, { reviews: [{}] });
         })
         .catch((error) => {
