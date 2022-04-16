@@ -13,10 +13,12 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { getAuth, updateProfile } from "firebase/auth";
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { login } from "../redux/userSlice";
 import { useAppDispatch } from "../redux/hooks";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { fbase } from "./api/Firebase";
 
 const steps = ["Welcome!", "Login Info", "Wrapping Up"];
 
@@ -30,6 +32,8 @@ const SignUp = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
   const formStarter = {
     variant: "standard",
     required: true,
@@ -41,7 +45,7 @@ const SignUp = () => {
     //Next step
     if (activeStep === 1) {
       createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
+        .then(() => {
           // Signed In
           if (auth.currentUser !== null) {
             updateProfile(auth.currentUser, {
@@ -57,10 +61,9 @@ const SignUp = () => {
               photoURL: user?.user.photoURL,
             })
           );
-          //Populate database here
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         })
-        .catch((err) => {
+        .catch((error) => {
           // Error handling
           alert("Something went catastrophically wrong. Try again later?");
           if (error) {
@@ -87,6 +90,33 @@ const SignUp = () => {
     //Completing the flow
     router.push("/Home");
   };
+
+  useEffect(() => {
+    if (user) {
+      const reviewLocation = doc(getFirestore(fbase), "reviews", user.user.uid);
+      setDoc(doc(getFirestore(fbase), "users", user.user.uid), {
+        email: user.user.email,
+        fname: fname,
+        lname: lname,
+        reviews: reviewLocation,
+        username: username,
+      })
+        .then(() => {
+          setDoc(reviewLocation, { reviews: [{}] });
+        })
+        .catch((error) => {
+          console.error(error.message);
+        })
+        .finally(() => {
+          // Reset state
+          setUsername("");
+          setPassword("");
+          setEmail("");
+          setFname("");
+          setLname("");
+        });
+    } // eslint-disable-next-line
+  }, [user]);
 
   //State mutators
   const updUsername = (event: {
@@ -147,6 +177,32 @@ const SignUp = () => {
                     value={username}
                     onChange={updUsername}
                     aria-label="Username"
+                    inputProps={formStarter}
+                  />
+                </FormControl>
+                <FormControl>
+                  <TextField
+                    id="first-name-input"
+                    label="First Name"
+                    placeholder="Sammy"
+                    value={fname}
+                    onChange={(e) => {
+                      setFname(e.target.value);
+                    }}
+                    aria-label="First name"
+                    inputProps={formStarter}
+                  />
+                </FormControl>
+                <FormControl>
+                  <TextField
+                    id="last-name-input"
+                    label="Last Name"
+                    placeholder="Tunji"
+                    value={lname}
+                    onChange={(e) => {
+                      setLname(e.target.value);
+                    }}
+                    aria-label="Last Name"
                     inputProps={formStarter}
                   />
                 </FormControl>
