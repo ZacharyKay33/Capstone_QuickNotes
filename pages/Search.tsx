@@ -27,7 +27,7 @@ interface result {
   ];
 }
 
-const Search:NextPage = ({ userSearch }) => {
+const Search: NextPage = ({ userSearch }) => {
   const router = useRouter();
 
   const [searchResultNames, setSearchResultNames] = useState([]);

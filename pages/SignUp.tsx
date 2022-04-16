@@ -13,10 +13,12 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { getAuth, updateProfile } from "firebase/auth";
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { login } from "../redux/userSlice";
 import { useAppDispatch } from "../redux/hooks";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { fbase } from "./api/Firebase";
 
 const steps = ["Welcome!", "Login Info", "Wrapping Up"];
 
@@ -41,7 +43,7 @@ const SignUp = () => {
     //Next step
     if (activeStep === 1) {
       createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
+        .then(() => {
           // Signed In
           if (auth.currentUser !== null) {
             updateProfile(auth.currentUser, {
@@ -57,10 +59,9 @@ const SignUp = () => {
               photoURL: user?.user.photoURL,
             })
           );
-          //Populate database here
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         })
-        .catch((err) => {
+        .catch((error) => {
           // Error handling
           alert("Something went catastrophically wrong. Try again later?");
           if (error) {
@@ -87,6 +88,25 @@ const SignUp = () => {
     //Completing the flow
     router.push("/Home");
   };
+
+  useEffect(() => {
+    if (user) {
+      const reviewLocation = doc(getFirestore(fbase), "reviews", user.user.uid);
+      setDoc(doc(getFirestore(fbase), "users", user.user.uid), {
+        email: user.user.email,
+        fname: "",
+        lname: "",
+        reviews: reviewLocation,
+        username: user.user.displayName,
+      })
+        .then(() => {
+          setDoc(reviewLocation, { reviews: [{}], instantiated: true });
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
+    }
+  }, [user, user?.user.displayName, user?.user.email, user?.user.uid]);
 
   //State mutators
   const updUsername = (event: {
