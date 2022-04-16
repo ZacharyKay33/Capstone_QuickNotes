@@ -32,6 +32,8 @@ const SignUp = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
   const formStarter = {
     variant: "standard",
     required: true,
@@ -94,19 +96,27 @@ const SignUp = () => {
       const reviewLocation = doc(getFirestore(fbase), "reviews", user.user.uid);
       setDoc(doc(getFirestore(fbase), "users", user.user.uid), {
         email: user.user.email,
-        fname: "",
-        lname: "",
+        fname: fname,
+        lname: lname,
         reviews: reviewLocation,
-        username: user.user.displayName,
+        username: username,
       })
         .then(() => {
-          setDoc(reviewLocation, { reviews: [{}], instantiated: true });
+          setDoc(reviewLocation, { reviews: [{}] });
         })
         .catch((error) => {
           console.error(error.message);
+        })
+        .finally(() => {
+          // Reset state
+          setUsername("");
+          setPassword("");
+          setEmail("");
+          setFname("");
+          setLname("");
         });
-    }
-  }, [user, user?.user.displayName, user?.user.email, user?.user.uid]);
+    } // eslint-disable-next-line
+  }, [user]);
 
   //State mutators
   const updUsername = (event: {
@@ -167,6 +177,32 @@ const SignUp = () => {
                     value={username}
                     onChange={updUsername}
                     aria-label="Username"
+                    inputProps={formStarter}
+                  />
+                </FormControl>
+                <FormControl>
+                  <TextField
+                    id="first-name-input"
+                    label="First Name"
+                    placeholder="Sammy"
+                    value={fname}
+                    onChange={(e) => {
+                      setFname(e.target.value);
+                    }}
+                    aria-label="First name"
+                    inputProps={formStarter}
+                  />
+                </FormControl>
+                <FormControl>
+                  <TextField
+                    id="last-name-input"
+                    label="Last Name"
+                    placeholder="Tunji"
+                    value={lname}
+                    onChange={(e) => {
+                      setLname(e.target.value);
+                    }}
+                    aria-label="Last Name"
                     inputProps={formStarter}
                   />
                 </FormControl>
