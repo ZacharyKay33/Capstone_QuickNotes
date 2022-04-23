@@ -101,6 +101,7 @@ const SignUp = () => {
         lname: lname,
         reviews: reviewLocation,
         username: username,
+        avatar: user.user.photoURL
       })
         .then(() => {
           // If successful, also instantiate an empty review doc for the new user

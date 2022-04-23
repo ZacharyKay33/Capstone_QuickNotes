@@ -1,7 +1,15 @@
-import { Grid, Stack, TextField, Typography, Button } from "@mui/material";
+import {
+  Grid,
+  Stack,
+  TextField,
+  Typography,
+  Button,
+  Paper,
+} from "@mui/material";
 import { doc, updateDoc, arrayUnion, getFirestore } from "firebase/firestore";
 import { NextPage } from "next";
 import { SetStateAction, useState } from "react";
+import Review from "../components/Review";
 
 /* export async function getServerSideProps(context: NextPageContext) {
   return {
@@ -63,41 +71,51 @@ const Home: NextPage = () => {
 
   return (
     <Grid container justifyContent="center">
-      <Stack direction="column" spacing={3}>
-        <Typography variant="h4" align="center">
-          Home
-        </Typography>
-        <TextField
-          id="song-input"
-          label="Song Title"
-          placeholder="Super Bounce"
-          value={song}
-          onChange={updSong}
-          aria-label="song-input"
-          fullWidth
-        />
-        <TextField
-          id="title-input"
-          label="Review Title"
-          placeholder="I think it's pretty sick"
-          value={title}
-          onChange={updTitle}
-          aria-label="title-input"
-          fullWidth
-        />
-        <TextField
-          id="review-input"
-          label="Review"
-          placeholder="Mellon Head"
-          value={review}
-          onChange={updReview}
-          aria-label="review-input"
-          fullWidth
-        />
-        <Button onClick={submitReview} disabled={loading}>
-          Submit
-        </Button>
-      </Stack>
+      <Grid
+        component={Paper}
+        item
+        xs={8}
+        sx={{ height: "500px", my: 6, mx: "auto" }}
+        variant="outlined"
+      ><Review/></Grid>
+      <Grid item xs={4} sx={{ p: 5 }}>
+        <Stack direction="column" spacing={3}>
+          <Typography variant="h4" align="center">
+            Home
+          </Typography>
+          <Typography variant="h4" align="center"></Typography>
+          <TextField
+            id="song-input"
+            label="Song Title"
+            placeholder="Super Bounce"
+            value={song}
+            onChange={updSong}
+            aria-label="song-input"
+            fullWidth
+          />
+          <TextField
+            id="title-input"
+            label="Review Title"
+            placeholder="I think it's pretty sick"
+            value={title}
+            onChange={updTitle}
+            aria-label="title-input"
+            fullWidth
+          />
+          <TextField
+            id="review-input"
+            label="Review"
+            placeholder="Mellon Head"
+            value={review}
+            onChange={updReview}
+            aria-label="review-input"
+            fullWidth
+          />
+          <Button onClick={submitReview} disabled={loading}>
+            Submit
+          </Button>
+        </Stack>
+      </Grid>
     </Grid>
   );
 };
