@@ -26,8 +26,12 @@ const SignUp = () => {
   //State
   const router = useRouter();
   const auth = getAuth();
-  const [createUserWithEmailAndPassword, user, loading, error] =
-    useCreateUserWithEmailAndPassword(auth);
+  const [
+    createUserWithEmailAndPassword,
+    user,
+    loading,
+    error,
+  ] = useCreateUserWithEmailAndPassword(auth);
   const [activeStep, setActiveStep] = useState(0);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -101,7 +105,7 @@ const SignUp = () => {
         lname: lname,
         reviews: reviewLocation,
         username: username,
-        avatar: user.user.photoURL
+        avatar: user.user.photoURL,
       })
         .then(() => {
           // If successful, also instantiate an empty review doc for the new user

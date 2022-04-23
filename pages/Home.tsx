@@ -77,7 +77,9 @@ const Home: NextPage = () => {
         xs={8}
         sx={{ height: "500px", my: 6, mx: "auto" }}
         variant="outlined"
-      ><Review/></Grid>
+      >
+        <Review />
+      </Grid>
       <Grid item xs={4} sx={{ p: 5 }}>
         <Stack direction="column" spacing={3}>
           <Typography variant="h4" align="center">
