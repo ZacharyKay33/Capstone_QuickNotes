@@ -20,7 +20,6 @@ import {
   getFirestore,
   doc,
   setDoc,
-  DocumentReference,
 } from "firebase/firestore";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { fbase } from "./api/Firebase";
@@ -35,7 +34,6 @@ const SignUp = () => {
     createUserWithEmailAndPassword,
     user,
     loading,
-    error,
   ] = useCreateUserWithEmailAndPassword(auth);
   const [activeStep, setActiveStep] = useState(0);
   const [username, setUsername] = useState("");

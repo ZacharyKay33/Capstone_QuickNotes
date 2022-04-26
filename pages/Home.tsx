@@ -1,4 +1,3 @@
-import { RecordVoiceOverTwoTone } from "@mui/icons-material";
 import {
   Grid,
   Stack,
@@ -8,6 +7,7 @@ import {
   Paper,
   AlertTitle,
   Alert,
+  FormControl,
 } from "@mui/material";
 import {
   doc,
@@ -15,64 +15,61 @@ import {
   getFirestore,
   collection,
   FirestoreDataConverter,
-  WithFieldValue,
-  SnapshotOptions,
   DocumentData,
   QueryDocumentSnapshot,
 } from "firebase/firestore";
 import { NextPage } from "next";
-import { useEffect, useState } from "react";
-import { useCollectionData } from "react-firebase-hooks/firestore";
+import { SetStateAction, useEffect, useState } from "react";
+import { useCollectionDataOnce } from "react-firebase-hooks/firestore";
 import Review from "../components/Review";
 import { fbase } from "./api/Firebase";
 
+//Type definitions
+type Review = {
+  rID: string;
+  review: {
+    authorID: string;
+    title: string;
+    content: string;
+    dateCreated: Date;
+    votes: number;
+  };
+  id?: string;
+};
+
+const reviewConverter: FirestoreDataConverter<Review> = {
+  toFirestore(review: Review): DocumentData {
+    return { ...review };
+  },
+  fromFirestore(snapshot: QueryDocumentSnapshot): Review {
+    const data = snapshot.data();
+    return { ...data, id: snapshot.id } as Review;
+  },
+};
+
 const Home: NextPage = () => {
-  //Type definitions
-  type Review = {
-    rID: string;
-    review: {
-      authorID: string;
-      title: string;
-      content: string;
-      dateCreated: Date;
-      votes: number;
-    };
-  };
-
-  const reviewConverter: FirestoreDataConverter<Review> = {
-    toFirestore(review: WithFieldValue<Review>): DocumentData {
-      return {
-        rID: review.rID,
-      };
-    },
-    fromFirestore(
-      snapshot: QueryDocumentSnapshot,
-      options: SnapshotOptions
-    ): Review {
-      const data = snapshot.data(options);
-      return {
-        rID: data.rID,
-        review: {
-          authorID: data.review.authorID,
-          title: data.review.title,
-          content: data.review.content,
-          votes: data.review.votes,
-          dateCreated: data.review.date_created,
-        },
-      };
-    },
-  };
-
   //State definitions
   const [song, setSong] = useState("");
   const [title, setTitle] = useState("");
-  const [review, setReview] = useState("");
+  const [reviewContent, setReviewContent] = useState("");
   const [submitLoading, setSubmitLoading] = useState(false);
-  const [value, loading, error] = useCollectionData(
+  const [value, loading, error] = useCollectionDataOnce(
     collection(getFirestore(fbase), "reviews").withConverter(reviewConverter)
   );
 
   //Functions
+  const updSong = (event: { target: { value: SetStateAction<string> } }) => {
+    setSong(event.target.value);
+  };
+
+  const updTitle = (event: { target: { value: SetStateAction<string> } }) => {
+    setTitle(event.target.value);
+  };
+
+  const updReview = (event: { target: { value: SetStateAction<string> } }) => {
+    setReviewContent(event.target.value);
+  };
+
   const submitReview = () => {
     console.log("Run the shits");
     setSubmitLoading(true);
@@ -80,7 +77,7 @@ const Home: NextPage = () => {
     const newReview = doc(db, "reviews", "all_reviews");
 
     updateDoc(newReview, {
-      content: review,
+      content: reviewContent,
       music: song,
       title: title,
     })
@@ -88,7 +85,7 @@ const Home: NextPage = () => {
         alert(
           "Your message has successfully saved :) Congrats you're a critic"
         );
-        setReview("");
+        setReviewContent("");
         setTitle("");
         setSong("");
       })
@@ -118,14 +115,18 @@ const Home: NextPage = () => {
         sx={{ height: "500px", my: 6, mx: "auto" }}
         variant="outlined"
       >
-        {value !== undefined ? (
-          value.map((review) => (
-            <Review
-              key={review.rID}
-              title={review.review.title}
-              body={review.review.content}
-            />
-          ))
+        {value && value.length > 0 ? (
+          value.map((review) => {
+            return (
+              <>
+                <Review
+                  key={review.id}
+                  title={review.review.title}
+                  body={review.review.content}
+                />
+              </>
+            );
+          })
         ) : (
           <Alert severity="warning">
             <AlertTitle>Review Problem</AlertTitle>Looks like something went
@@ -139,39 +140,37 @@ const Home: NextPage = () => {
             Home
           </Typography>
           <Typography variant="h4" align="center"></Typography>
-          <TextField
-            id="song-input"
-            label="Song Title"
-            placeholder="Super Bounce"
-            value={song}
-            onChange={(e) => {
-              setSong(e.target.value);
-            }}
-            aria-label="song-input"
-            fullWidth
-          />
-          <TextField
-            id="title-input"
-            label="Review Title"
-            placeholder="I think it's pretty sick"
-            value={title}
-            onChange={(e) => {
-              setTitle(e.target.value);
-            }}
-            aria-label="title-input"
-            fullWidth
-          />
-          <TextField
-            id="review-input"
-            label="Review"
-            placeholder="Mellon Head"
-            value={review}
-            onChange={(e) => {
-              setReview(e.target.value);
-            }}
-            aria-label="review-input"
-            fullWidth
-          />
+          <FormControl>
+            <TextField
+              id="song-input"
+              label="Song Title"
+              placeholder="Super Bounce"
+              value={song}
+              onChange={updSong}
+              aria-label="song-input"
+              fullWidth
+            />
+            <TextField
+              id="title-input"
+              label="Review Title"
+              placeholder="I think it's pretty sick"
+              value={title}
+              onChange={updTitle}
+              aria-label="title-input"
+              fullWidth
+              sx={{ mt: 3 }}
+            />
+            <TextField
+              id="review-input"
+              label="Review"
+              placeholder="Mellon Head"
+              value={reviewContent}
+              onChange={updReview}
+              aria-label="review-input"
+              fullWidth
+              sx={{ mt: 3 }}
+            />
+          </FormControl>
           <Button onClick={submitReview} disabled={submitLoading}>
             Submit
           </Button>
