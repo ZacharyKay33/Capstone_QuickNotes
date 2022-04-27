@@ -16,7 +16,11 @@ import { getAuth, updateProfile } from "firebase/auth";
 import { SetStateAction, useEffect, useState } from "react";
 import { login } from "../redux/userSlice";
 import { useAppDispatch } from "../redux/hooks";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+} from "firebase/firestore";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { fbase } from "./api/Firebase";
 
@@ -26,8 +30,11 @@ const SignUp = () => {
   //State
   const router = useRouter();
   const auth = getAuth();
-  const [createUserWithEmailAndPassword, user, loading, error] =
-    useCreateUserWithEmailAndPassword(auth);
+  const [
+    createUserWithEmailAndPassword,
+    user,
+    loading,
+  ] = useCreateUserWithEmailAndPassword(auth);
   const [activeStep, setActiveStep] = useState(0);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -93,19 +100,15 @@ const SignUp = () => {
 
   useEffect(() => {
     if (user) {
-      const reviewLocation = doc(getFirestore(fbase), "reviews", user.user.uid); // Create a document in reviews named {user.uid}
       setDoc(doc(getFirestore(fbase), "users", user.user.uid), {
         // Create document in users named {user.uid} with user data
         email: user.user.email,
         fname: fname,
         lname: lname,
-        reviews: reviewLocation,
+        reviews: [null],
         username: username,
+        avatar: user.user.photoURL,
       })
-        .then(() => {
-          // If successful, also instantiate an empty review doc for the new user
-          setDoc(reviewLocation, { reviews: [{}] });
-        })
         .catch((error) => {
           console.error(error.message);
         })

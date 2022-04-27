@@ -27,8 +27,12 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const auth = getAuth();
-  const [signInWithEmailAndPassword, user, loading, error] =
-    useSignInWithEmailAndPassword(auth); // Pulling authentification helpers
+  const [
+    signInWithEmailAndPassword,
+    user,
+    loading,
+    error,
+  ] = useSignInWithEmailAndPassword(auth); // Pulling authentification helpers
   const dispatch = useAppDispatch(); //Sends requests to the redux store
   const router = useRouter();
   const formStarter = {
