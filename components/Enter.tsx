@@ -33,7 +33,7 @@ const Enter = () => {
 
   return (
     <>
-      <Stack direction="row" sx={{ height: "720px" }}>
+      <Stack direction="row" sx={{ height: "100vh" }}>
         {/* Main Container, controls direction and overall size */}
         <Grid container sx={{ bgcolor: "#81b29a", minHeight: "100%" }}>
           <Grid xs={6} sx={{ m: "auto" }} item>
