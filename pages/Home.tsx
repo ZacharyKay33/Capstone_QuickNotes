@@ -23,6 +23,7 @@ import { SetStateAction, useEffect, useState } from "react";
 import { useCollectionDataOnce } from "react-firebase-hooks/firestore";
 import Review from "../components/Review";
 import { fbase } from "./api/Firebase";
+import Navbar from "../components/Navbar";
 
 //Type definitions
 type Review = {
@@ -108,6 +109,9 @@ const Home: NextPage = () => {
 
   return (
     <Grid container justifyContent="center">
+      <Grid container justifyContent="center">
+        <Navbar />
+      </Grid>
       <Grid
         component={Paper}
         item

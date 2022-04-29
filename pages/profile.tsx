@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { SetStateAction, useEffect, useState } from "react";
 import "./api/Firebase"; //W peace and love
+import Navbar from "../components/Navbar";
 
 const Profile = () => {
   //State definitions
@@ -35,6 +36,7 @@ const Profile = () => {
 
   return (
     <Paper elevation={4}>
+      <Navbar />
       <Stack spacing={3}>
         <Typography variant="h4" align="center" gutterBottom>
           Profile
