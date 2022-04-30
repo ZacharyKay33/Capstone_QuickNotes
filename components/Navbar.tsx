@@ -58,6 +58,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar() {
+  const [query, setQuery] = React.useState('');
+
   return (
     <Box sx={{ flexGrow: 1, justifyContent: "space-between" }}>
       <AppBar position="sticky" className="App">
@@ -74,12 +76,16 @@ export default function SearchAppBar() {
             </Typography>
           </Link>
           <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
+            <Link href="/Search?qry=[query]" as={`/Search?qry=${query}`} passHref>
+              <SearchIconWrapper style={{zIndex:0}}>
+                <SearchIcon />
+              </SearchIconWrapper>
+            </Link>
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
+              onChange={(e) => setQuery(e.target.value)} 
+              style={{zIndex:0}}
             />
           </Search>
           <Link href="/profile" passHref>
