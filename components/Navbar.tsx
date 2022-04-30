@@ -34,7 +34,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
   height: "100%",
   position: "absolute",
-  pointerEvents: "none",
+  //pointerEvents: "none",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -58,7 +58,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar() {
-  const [query, setQuery] = React.useState('');
+  const [searchBarQuery, setSearchBarQuery] = React.useState('');
 
   return (
     <Box sx={{ flexGrow: 1, justifyContent: "space-between" }}>
@@ -76,16 +76,15 @@ export default function SearchAppBar() {
             </Typography>
           </Link>
           <Search>
-            <Link href="/Search?qry=[query]" as={`/Search?qry=${query}`} passHref>
-              <SearchIconWrapper style={{zIndex:0}}>
-                <SearchIcon />
+            <Link href={`/Search?qry=${searchBarQuery}`} as={`/Search?qry=${searchBarQuery}`} passHref>
+              <SearchIconWrapper>
+                <SearchIcon/>
               </SearchIconWrapper>
             </Link>
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
-              onChange={(e) => setQuery(e.target.value)} 
-              style={{zIndex:0}}
+              onChange={(e) => setSearchBarQuery(e.target.value)} 
             />
           </Search>
           <Link href="/profile" passHref>
