@@ -40,6 +40,8 @@ type Review = {
     authorID: string;
     title: string;
     content: string;
+    songId: string;
+    artistName: string;
     dateCreated: Date;
     votes: number;
   };
@@ -58,10 +60,12 @@ const reviewConverter: FirestoreDataConverter<Review> = {
 const Home: NextPage = () => {
   //State definitions
   const [song, setSong] = useState("");
+  const [artist, setArtist] = useState("");
   const [title, setTitle] = useState("");
   const [reviewContent, setReviewContent] = useState("");
   const [submitLoading, setSubmitLoading] = useState(false);
-  const [value] = useCollectionData(
+  const [reviews] = useCollectionData(
+    //Review list
     collection(getFirestore(fbase), "reviews").withConverter(reviewConverter)
   );
   const [user] = useAuthState(getAuth(fbase));
@@ -70,6 +74,10 @@ const Home: NextPage = () => {
   //Functions
   const updSong = (event: { target: { value: SetStateAction<string> } }) => {
     setSong(event.target.value);
+  };
+
+  const updArtist = (event: { target: { value: SetStateAction<string> } }) => {
+    setArtist(event.target.value);
   };
 
   const updTitle = (event: { target: { value: SetStateAction<string> } }) => {
@@ -84,6 +92,7 @@ const Home: NextPage = () => {
     console.log("Start submission");
     setSubmitLoading(true);
 
+    //Check if we're authed, logout if we aren't for whatever reason
     if (!user) {
       alert("Hmm, you're not logged in.");
       logout();
@@ -91,17 +100,21 @@ const Home: NextPage = () => {
       return;
     }
 
-    const reviewRef = addDoc(collection(getFirestore(), "reviews"), {
+    //Add a document to the reviews collection
+    addDoc(collection(getFirestore(), "reviews"), {
       rID: "",
       review: {
         authorID: user.uid,
         title: title,
         content: reviewContent,
+        songId: song,
+        artistName: artist,
         dateCreated: serverTimestamp(),
         votes: 0,
       },
     })
       .then((ref) => {
+        //If it works we set the id in the review to that of the document if we need to query
         console.log("You successfully posted a review, congrats!");
         updateDoc(ref, { rID: ref.id });
       })
@@ -113,6 +126,7 @@ const Home: NextPage = () => {
       })
       .finally(() => {
         setSong("");
+        setArtist("");
         setTitle("");
         setReviewContent("");
         setSubmitLoading(false);
@@ -131,19 +145,20 @@ const Home: NextPage = () => {
         sx={{ height: "500px", my: 6, mx: "auto" }}
         variant="outlined"
       >
-        {value && value.length > 0 ? (
-          value.map((review) => {
+        {reviews && reviews.length > 0 ? ( //If the recieved array is longer than 0, we list the reviews
+          reviews.map((review) => {
             return (
-              <>
-                <Review
-                  key={review.rID}
-                  title={review.review.title}
-                  body={review.review.content}
-                />
-              </>
+              <Review
+                key={review.rID}
+                title={review.review.title}
+                body={review.review.content}
+                songId={review.review.songId}
+                artistName={review.review.artistName}
+              />
             );
           })
         ) : (
+          // Else we drop an error
           <Alert severity="warning">
             <AlertTitle>Review Problem</AlertTitle>Looks like something went
             wrong, try again later?
@@ -165,6 +180,16 @@ const Home: NextPage = () => {
               onChange={updSong}
               aria-label="song-input"
               fullWidth
+            />
+            <TextField
+              id="artist-input"
+              label="Artist or Group"
+              placeholder="Duckwrth"
+              value={artist}
+              onChange={updArtist}
+              aria-label="artist-input"
+              fullWidth
+              sx={{ mt: 3 }}
             />
             <TextField
               id="title-input"
