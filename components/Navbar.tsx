@@ -91,6 +91,17 @@ export default function SearchAppBar() {
               }}
             />
           </Search>
+           <Link href="/" passHref>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+              textAlign="right"
+            >
+              Logout
+            </Typography>
+          </Link>
           <Link href="/profile" passHref>
             <Typography
               variant="h6"
