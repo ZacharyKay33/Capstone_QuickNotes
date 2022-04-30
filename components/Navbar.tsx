@@ -12,6 +12,7 @@ import Link from "next/link";
 import { SvgIconProps } from "material-ui/SvgIcon";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -58,7 +59,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar() {
-  const [searchBarQuery, setSearchBarQuery] = React.useState('');
+  const [searchBarQuery, setSearchBarQuery] = React.useState("");
+  const router = useRouter();
 
   return (
     <Box sx={{ flexGrow: 1, justifyContent: "space-between" }}>
@@ -76,15 +78,17 @@ export default function SearchAppBar() {
             </Typography>
           </Link>
           <Search>
-            <Link href={`/Search?qry=${searchBarQuery}`} as={`/Search?qry=${searchBarQuery}`} passHref>
-              <SearchIconWrapper>
-                <SearchIcon/>
-              </SearchIconWrapper>
-            </Link>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
-              onChange={(e) => setSearchBarQuery(e.target.value)} 
+              onChange={(e) => setSearchBarQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key == "Enter")
+                  router.push("/Search?qry=${" + searchBarQuery + "}");
+              }}
             />
           </Search>
           <Link href="/profile" passHref>
@@ -93,7 +97,7 @@ export default function SearchAppBar() {
               noWrap
               component="div"
               sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-              textAlign="Right"
+              textAlign="right"
             >
               <AccountCircleOutlinedIcon fontSize="large" />
             </Typography>
