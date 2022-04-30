@@ -10,20 +10,28 @@ import {
   FormControl,
 } from "@mui/material";
 import {
-  doc,
-  updateDoc,
   getFirestore,
   collection,
   FirestoreDataConverter,
   DocumentData,
   QueryDocumentSnapshot,
+  doc,
+  setDoc,
+  serverTimestamp,
+  addDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { NextPage } from "next";
-import { SetStateAction, useEffect, useState } from "react";
-import { useCollectionDataOnce } from "react-firebase-hooks/firestore";
+import { SetStateAction, useState } from "react";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 import Review from "../components/Review";
 import { fbase } from "./api/Firebase";
 import Navbar from "../components/Navbar";
+import { useAppSelector } from "../redux/hooks";
+import { logout } from "../redux/userSlice";
+import { useRouter } from "next/router";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { getAuth } from "firebase/auth";
 
 //Type definitions
 type Review = {
@@ -35,7 +43,6 @@ type Review = {
     dateCreated: Date;
     votes: number;
   };
-  id?: string;
 };
 
 const reviewConverter: FirestoreDataConverter<Review> = {
@@ -44,7 +51,7 @@ const reviewConverter: FirestoreDataConverter<Review> = {
   },
   fromFirestore(snapshot: QueryDocumentSnapshot): Review {
     const data = snapshot.data();
-    return { ...data, id: snapshot.id } as Review;
+    return { ...data } as Review;
   },
 };
 
@@ -54,9 +61,11 @@ const Home: NextPage = () => {
   const [title, setTitle] = useState("");
   const [reviewContent, setReviewContent] = useState("");
   const [submitLoading, setSubmitLoading] = useState(false);
-  const [value, loading, error] = useCollectionDataOnce(
+  const [value] = useCollectionData(
     collection(getFirestore(fbase), "reviews").withConverter(reviewConverter)
   );
+  const [user] = useAuthState(getAuth(fbase));
+  const router = useRouter();
 
   //Functions
   const updSong = (event: { target: { value: SetStateAction<string> } }) => {
@@ -71,41 +80,44 @@ const Home: NextPage = () => {
     setReviewContent(event.target.value);
   };
 
-  const submitReview = () => {
-    console.log("Run the shits");
+  const submitReview = async () => {
+    console.log("Start submission");
     setSubmitLoading(true);
-    const db = getFirestore();
-    const newReview = doc(db, "reviews", "all_reviews");
 
-    updateDoc(newReview, {
-      content: reviewContent,
-      music: song,
-      title: title,
+    if (!user) {
+      alert("Hmm, you're not logged in.");
+      logout();
+      router.replace("/");
+      return;
+    }
+
+    const reviewRef = addDoc(collection(getFirestore(), "reviews"), {
+      rID: "",
+      review: {
+        authorID: user.uid,
+        title: title,
+        content: reviewContent,
+        dateCreated: serverTimestamp(),
+        votes: 0,
+      },
     })
-      .then(() => {
-        alert(
-          "Your message has successfully saved :) Congrats you're a critic"
-        );
-        setReviewContent("");
-        setTitle("");
-        setSong("");
+      .then((ref) => {
+        console.log("You successfully posted a review, congrats!");
+        updateDoc(ref, { rID: ref.id });
       })
       .catch((error) => {
-        alert(
-          "Unfortunately it didn't go through, write better reviews.\n" +
-            error.message
+        console.error(
+          "Something went wrong during document setting",
+          error.message
         );
       })
       .finally(() => {
+        setSong("");
+        setTitle("");
+        setReviewContent("");
         setSubmitLoading(false);
       });
   };
-
-  useEffect(() => {
-    console.log("error - ", error);
-    console.log("value - ", value);
-    console.log("loading - ", loading);
-  }, [value, loading, error]);
 
   return (
     <Grid container justifyContent="center">
@@ -124,7 +136,7 @@ const Home: NextPage = () => {
             return (
               <>
                 <Review
-                  key={review.id}
+                  key={review.rID}
                   title={review.review.title}
                   body={review.review.content}
                 />
