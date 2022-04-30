@@ -35,12 +35,23 @@ const Enter = () => {
     <>
       <Stack direction="row" sx={{ height: "100vh" }}>
         {/* Main Container, controls direction and overall size */}
-        <Grid container sx={{ bgcolor: "#81b29a", minHeight: "100%" }}>
-          <Grid xs={6} sx={{ m: "auto" }} item>
+        <Grid container sx={{ bgcolor: "#90e0ef", minHeight: "100%" }}>
+          <Grid
+            xs={6}
+            sx={{
+              m: "auto",
+              display: "flex",
+              height: "100vh",
+              Width: "100vh",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            item
+          >
             <AudiotrackOutlinedIcon sx={{ fontSize: 200 }} />
           </Grid>
         </Grid>
-        <Grid container sx={{ bgcolor: "#a8dadc", minHeight: "100%" }}>
+        <Grid container sx={{ bgcolor: "#00b4d8", minHeight: "100%" }}>
           {/*Might be a redundant container, sets color and minimum height */}
           <Stack
             direction="column"
@@ -49,22 +60,34 @@ const Enter = () => {
             my={"auto"}
             sx={{ textAlign: "center" }}
           >
-            <Typography variant="h2" mb={7}>
-              Logo
+            <Typography variant="h2" mb={7} sx={{ color: "white" }}>
+              Quarter Notes
             </Typography>
             <Container>
               {" "}
               {/*Centering*/}
               <Button
                 variant="contained"
-                sx={{ width: "80%", my: 2 }}
+                sx={{
+                  width: "80%",
+                  my: 2,
+                  borderRadius: "20px",
+                  backgroundColor: "#caf0f8",
+                  color: "black",
+                }}
                 onClick={clickLogin}
               >
                 Login
               </Button>
               <Button
                 variant="contained"
-                sx={{ width: "80%", my: 2 }}
+                sx={{
+                  width: "80%",
+                  my: 2,
+                  borderRadius: "20px",
+                  backgroundColor: "#caf0f8",
+                  color: "black",
+                }}
                 onClick={clickSignUp}
               >
                 Sign Up
