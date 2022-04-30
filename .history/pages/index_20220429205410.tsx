@@ -5,10 +5,6 @@ import { useAppDispatch } from "../redux/hooks";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 import { login } from "../redux/userSlice";
-import Slide from "@mui/material/Slide";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Box from "@mui/material/Box";
-import Switch from "@mui/material/Switch";
 
 const Splash: NextPage = () => {
   const router = useRouter();
@@ -31,16 +27,14 @@ const Splash: NextPage = () => {
     router.push("/Home");
   };
 
-  function SimpleSlide() {
-    const [checked, setChecked] = React.useState(false);
-  }
-
   return (
     <>
       {user !== null && user !== undefined ? ( //Check if we're authenticated
         updateState()
       ) : (
-        <Enter />
+        <Slide direction="up" in={checked} mountOnEnter unmountOnExit>
+          <Enter />
+        </Slide>
       )}
     </>
   );

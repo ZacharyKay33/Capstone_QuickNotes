@@ -31,16 +31,20 @@ const Splash: NextPage = () => {
     router.push("/Home");
   };
 
-  function SimpleSlide() {
-    const [checked, setChecked] = React.useState(false);
-  }
-
   return (
     <>
       {user !== null && user !== undefined ? ( //Check if we're authenticated
         updateState()
       ) : (
-        <Enter />
+        <Box sx={{ width: `calc(100px + 16px)` }}>
+          <FormControlLabel
+            control={<Switch checked={checked} onChange={handleChange} />}
+            label="Show"
+          />
+          <Slide direction="up" in={checked} mountOnEnter unmountOnExit>
+            <Enter />
+          </Slide>
+        </Box>
       )}
     </>
   );
