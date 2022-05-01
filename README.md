@@ -2,12 +2,17 @@ This is the new home of the Quarter Notes app
 
 ## Getting Started
 
-First, install dependencies
+First, [install Node.js](https://nodejs.org/en/).
+
+Next, clone the repository and install it's dependencies
 
 ```bash
+git clone https://github.com/ZacharyKay33/Capstone_QuickNotes
+cd Capstone_QuickNotes
 npm i
-npm run pretty
 ```
+
+**Application will not run correctly without environmental variable in place.**
 
 Next, run the development server:
 
