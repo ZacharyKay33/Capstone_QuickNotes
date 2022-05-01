@@ -15,8 +15,6 @@ import {
   FirestoreDataConverter,
   DocumentData,
   QueryDocumentSnapshot,
-  doc,
-  setDoc,
   serverTimestamp,
   addDoc,
   updateDoc,
@@ -27,11 +25,11 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import Review from "../components/Review";
 import { fbase } from "./api/Firebase";
 import Navbar from "../components/Navbar";
-import { useAppSelector } from "../redux/hooks";
 import { logout } from "../redux/userSlice";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
+import ReviewBox from "../components/Review";
 
 //Type definitions
 type Review = {
@@ -100,6 +98,11 @@ const Home: NextPage = () => {
       return;
     }
 
+    if (!song || !artist || !title || !reviewContent) {
+      alert("Whoa whoa whoa, you didn't finish the form. Try again");
+      return;
+    }
+
     //Add a document to the reviews collection
     addDoc(collection(getFirestore(), "reviews"), {
       rID: "",
@@ -151,15 +154,7 @@ const Home: NextPage = () => {
       >
         {reviews && reviews.length > 0 ? ( //If the recieved array is longer than 0, we list the reviews
           reviews.map((review) => {
-            return (
-              <Review
-                key={review.rID}
-                title={review.review.title}
-                body={review.review.content}
-                songId={review.review.songId}
-                artistName={review.review.artistName}
-              />
-            );
+            return <ReviewBox key={review.rID} rID={review.rID} review={review.review} />;
           })
         ) : (
           // Else we drop an error
@@ -169,14 +164,16 @@ const Home: NextPage = () => {
           </Alert>
         )}
       </Grid>
-      <Grid item 
-             xs={4}         
-             sx={{
-                 p: 5,
-                 backgroundColor: "#caf0f8",
-                 mt: 8,
-                 height: "100vh",
-        }}>
+      <Grid
+        item
+        xs={4}
+        sx={{
+          p: 5,
+          backgroundColor: "#caf0f8",
+          mt: 8,
+          height: "100vh",
+        }}
+      >
         <Stack direction="column" spacing={3}>
           <Typography variant="h4" align="center">
             Home
