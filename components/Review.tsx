@@ -1,10 +1,12 @@
 import {
   Avatar,
+  Button,
   Card,
   CardActions,
   CardContent,
   IconButton,
   Stack,
+  TextField,
   Typography,
 } from "@mui/material";
 import CommentIcon from "@mui/icons-material/Comment";
@@ -30,6 +32,12 @@ type Review = {
 
 const ReviewBox = (props: Review) => {
   const [commenting, setCommenting] = useState(false);
+  const [comment, setComment] = useState("");
+
+  const submitComment = () => {
+    console.log("Submitting comment to db");
+    setCommenting(false);
+  };
 
   return (
     <Card sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -43,9 +51,33 @@ const ReviewBox = (props: Review) => {
           </Stack>
           <Typography>{props.review.title}</Typography>
           <Typography>{props.review.content}</Typography>
+          {commenting ? (
+            <>
+              <TextField
+                id="comment"
+                label="comment"
+                multiline
+                maxRows={4}
+                value={comment}
+                onChange={(e) => {
+                  setComment(e.target.value);
+                }}
+              />
+              <Button variant="outlined" onClick={submitComment}>
+                Submit
+              </Button>
+            </>
+          ) : (
+            <></>
+          )}
         </Stack>
       </CardContent>
-      <CardActions sx={{ flexStart: "end" }} onClick={() => {setCommenting(!commenting)}}>
+      <CardActions
+        sx={{ flexStart: "end" }}
+        onClick={() => {
+          setCommenting(!commenting);
+        }}
+      >
         <IconButton aria-label="Like">
           <CommentIcon />
         </IconButton>
