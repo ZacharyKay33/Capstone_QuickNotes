@@ -13,6 +13,7 @@ import { SvgIconProps } from "material-ui/SvgIcon";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { Button } from "@mui/material";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -91,7 +92,6 @@ export default function SearchAppBar() {
               }}
             />
           </Search>
-          </Link>
           <Link href="/" passHref>
             <Button
               size="medium"
