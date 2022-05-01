@@ -64,7 +64,7 @@ export default function SearchAppBar() {
 
   return (
     <Box sx={{ flexGrow: 1, justifyContent: "space-between" }}>
-      <AppBar position="sticky" className="App">
+      <AppBar position="fixed" className="App">
         <Toolbar>
           <Link href="/Home" passHref>
             <Typography
@@ -91,16 +91,15 @@ export default function SearchAppBar() {
               }}
             />
           </Search>
-           <Link href="/" passHref>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-              textAlign="right"
+          </Link>
+          <Link href="/" passHref>
+            <Button
+              size="medium"
+              variant="contained"
+              sx={{ backgroundColor: "red", ml: 4, mb: 1, color: "error" }}
             >
               Logout
-            </Typography>
+            </Button>
           </Link>
           <Link href="/profile" passHref>
             <Typography
