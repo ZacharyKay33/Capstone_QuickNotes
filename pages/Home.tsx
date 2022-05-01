@@ -142,7 +142,11 @@ const Home: NextPage = () => {
         component={Paper}
         item
         xs={8}
-        sx={{ height: "500px", my: 6, mx: "auto" }}
+        sx={{
+          height: "100vh",
+          mx: "auto",
+          mt: 8,
+        }}
         variant="outlined"
       >
         {reviews && reviews.length > 0 ? ( //If the recieved array is longer than 0, we list the reviews
@@ -165,7 +169,14 @@ const Home: NextPage = () => {
           </Alert>
         )}
       </Grid>
-      <Grid item xs={4} sx={{ p: 5 }}>
+      <Grid item 
+             xs={4}         
+             sx={{
+                 p: 5,
+                 backgroundColor: "#caf0f8",
+                 mt: 8,
+                 height: "100vh",
+        }}>
         <Stack direction="column" spacing={3}>
           <Typography variant="h4" align="center">
             Home
