@@ -39,6 +39,13 @@ type Review = {
     title: string;
     content: string;
     songId: string;
+    comments: [
+      {
+        content: string;
+        uid: string;
+        votes: number;
+      }?
+    ];
     artistName: string;
     dateCreated: Date;
     votes: number;
@@ -111,6 +118,7 @@ const Home: NextPage = () => {
         title: title,
         content: reviewContent,
         songId: song,
+        comments: [],
         artistName: artist,
         dateCreated: serverTimestamp(),
         votes: 0,
@@ -154,7 +162,13 @@ const Home: NextPage = () => {
       >
         {reviews && reviews.length > 0 ? ( //If the recieved array is longer than 0, we list the reviews
           reviews.map((review) => {
-            return <ReviewBox key={review.rID} rID={review.rID} review={review.review} />;
+            return (
+              <ReviewBox
+                key={review.rID}
+                rID={review.rID}
+                review={review.review}
+              />
+            );
           })
         ) : (
           // Else we drop an error

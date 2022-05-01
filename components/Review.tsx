@@ -8,6 +8,13 @@ type Review = {
     title: string;
     content: string;
     songId: string;
+    comments: [
+      {
+        content: string;
+        uid: string;
+        votes: number;
+      }?
+    ];
     artistName: string;
     dateCreated: Date;
     votes: number;
