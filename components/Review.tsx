@@ -1,5 +1,14 @@
-import { Avatar, Card, CardContent, Stack, Typography } from "@mui/material";
-import React from "react";
+import {
+  Avatar,
+  Card,
+  CardActions,
+  CardContent,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/material";
+import CommentIcon from "@mui/icons-material/Comment";
+import React, { SetStateAction, useState } from "react";
 
 type Review = {
   rID: string;
@@ -12,20 +21,20 @@ type Review = {
       {
         content: string;
         uid: string;
-        votes: number;
       }?
     ];
     artistName: string;
     dateCreated: Date;
-    votes: number;
   };
 };
 
 const ReviewBox = (props: Review) => {
+  const [commenting, setCommenting] = useState(false);
+
   return (
-    <Card sx={{ display: "flex" }}>
-      <Avatar sx={{ width: 100, height: 100, m: 3 }}>Test</Avatar>
-      <CardContent sx={{ display: "grid", my: 2 }}>
+    <Card sx={{ display: "flex", justifyContent: "space-between" }}>
+      <CardContent sx={{ display: "flex", my: 2 }}>
+        <Avatar sx={{ width: 100, height: 100, m: 3 }}>Test</Avatar>
         <Stack direction="column" spacing={0}>
           <Stack direction="row" spacing={2}>
             <Typography variant="h6">{props.review.songId}</Typography>
@@ -36,6 +45,11 @@ const ReviewBox = (props: Review) => {
           <Typography>{props.review.content}</Typography>
         </Stack>
       </CardContent>
+      <CardActions sx={{ flexStart: "end" }} onClick={() => {setCommenting(!commenting)}}>
+        <IconButton aria-label="Like">
+          <CommentIcon />
+        </IconButton>
+      </CardActions>
     </Card>
   );
 };

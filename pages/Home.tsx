@@ -43,12 +43,10 @@ type Review = {
       {
         content: string;
         uid: string;
-        votes: number;
       }?
     ];
     artistName: string;
     dateCreated: Date;
-    votes: number;
   };
 };
 
@@ -121,7 +119,6 @@ const Home: NextPage = () => {
         comments: [],
         artistName: artist,
         dateCreated: serverTimestamp(),
-        votes: 0,
       },
     })
       .then((ref) => {
